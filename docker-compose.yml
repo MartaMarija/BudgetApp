@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16
+    container_name: budget_app_db
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: symfony
+    volumes:
+      - volume_database_budget_app:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: ./.docker
+    container_name: budget_app_web
+    user: "1000:1000"
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/virtualhost.conf:/etc/apache2/sites-available/000-default.conf
+    environment:
+      COMPOSER_HOME: /home/composer
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+volumes:
+  volume_database_budget_app:
