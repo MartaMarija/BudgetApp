@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractApiController extends AbstractController
 {
-    protected function respondWithSuccess(mixed $data, string $message = '', int $status = 200): JsonResponse
+    protected function respondWithSuccess(mixed $data, string $message = '', int $status = 200, ?array $metadata = null): JsonResponse
     {
-        return $this->json(new ApiResponse($data, $message), $status);
+        return $this->json(new ApiResponse($data, $message, $metadata), $status);
     }
 
     protected function respondWithError(string $message, int $status = 400, mixed $data = null): JsonResponse

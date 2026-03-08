@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\TemporalEntity;
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'categories')]
-#[ApiResource]
 class Category extends TemporalEntity
 {
     #[ORM\Column(length: 255)]
