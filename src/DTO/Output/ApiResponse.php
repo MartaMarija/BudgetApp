@@ -9,5 +9,6 @@ class ApiResponse
     public function __construct(
         public readonly mixed $data,
         public readonly string $message,
+        public readonly ?array $metadata = null,
     ) {}
 }

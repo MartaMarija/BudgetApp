@@ -2,15 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Enum\TransactionType;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\TemporalEntity;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 #[ORM\Table(name: 'transactions')]
-#[ApiResource]
 class Transaction extends TemporalEntity
 {
     #[ORM\Column]
