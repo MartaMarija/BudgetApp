@@ -42,8 +42,30 @@ class TransactionController extends AbstractApiController
                             type: 'array',
                             items: new OA\Items(ref: new Model(type: TransactionOutput::class)),
                         ),
-                        new OA\Property(property: 'totalIncome', type: 'string', example: '1500.00'),
-                        new OA\Property(property: 'totalExpense', type: 'string', example: '1000.00'),
+                        new OA\Property(
+                            property: 'amountStats',
+                            properties: [
+                                new OA\Property(
+                                    property: 'income',
+                                    properties: [
+                                        new OA\Property(property: 'total', type: 'string', example: '1500.00'),
+                                        new OA\Property(property: 'min', type: 'string', example: '50.00', nullable: true),
+                                        new OA\Property(property: 'max', type: 'string', example: '3000.00', nullable: true),
+                                    ],
+                                    type: 'object',
+                                ),
+                                new OA\Property(
+                                    property: 'expense',
+                                    properties: [
+                                        new OA\Property(property: 'total', type: 'string', example: '1000.00'),
+                                        new OA\Property(property: 'min', type: 'string', example: '10.00', nullable: true),
+                                        new OA\Property(property: 'max', type: 'string', example: '850.00', nullable: true),
+                                    ],
+                                    type: 'object',
+                                ),
+                            ],
+                            type: 'object',
+                        ),
                     ],
                 ),
                 new OA\Property(
@@ -79,14 +101,6 @@ class TransactionController extends AbstractApiController
             $input->sortDirection,
         );
 
-        $amountTotals = $this->transactionRepository->getTotalAmount(
-            $user,
-            $input->getFrom(),
-            $input->getTo(),
-            $input->getTransactionType(),
-            $input->categoryId,
-        );
-
         $amountStats = $this->transactionRepository->getAmountStats(
             $user,
             $input->getFrom(),
@@ -103,8 +117,7 @@ class TransactionController extends AbstractApiController
         return $this->respondWithSuccess(
             data: [
                 'transactions'  => TransactionOutput::list($transactions),
-                'amountTotals'   => $amountTotals,
-                'amountStats'   => $amountStats,
+                'amountStats' => $amountStats,
             ],
             metadata: [
                 'pagination' => [

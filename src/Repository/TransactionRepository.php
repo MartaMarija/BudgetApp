@@ -89,56 +89,25 @@ class TransactionRepository extends ServiceEntityRepository
         $qb = $this->getFilterQuery($user, $from, $to, $type, $categoryId);
 
         $qb
-            ->select('transactions.type, MIN(transactions.amount) as min, MAX(transactions.amount) as max')
+            ->select('transactions.type, SUM(transactions.amount) as total, MIN(transactions.amount) as min, MAX(transactions.amount) as max')
             ->groupBy('transactions.type')
         ;
 
         $rows = $qb->getQuery()->getResult();
 
-        $stats = [
-            'income'  => ['min' => null, 'max' => null],
-            'expense' => ['min' => null, 'max' => null],
+        $summary = [
+            'income'  => ['total' => '0.00', 'min' => null, 'max' => null],
+            'expense' => ['total' => '0.00', 'min' => null, 'max' => null],
         ];
 
         foreach ($rows as $row) {
-            $type = $row['type']->value;
+            $key = $row['type']->value;
 
-            $stats[$type]['min'] = number_format($row['min'], 2);;
-            $stats[$type]['max'] = number_format($row['max'], 2);
+            $summary[$key]['total'] = number_format($row['total'], 2);
+            $summary[$key]['min']   = number_format($row['min'], 2);
+            $summary[$key]['max']   = number_format($row['max'], 2);
         }
 
-        return $stats;
-    }
-
-    public function getTotalAmount(
-        User               $user,
-        ?DateTimeInterface $from,
-        ?DateTimeInterface $to,
-        ?TransactionType   $type,
-        ?int               $categoryId,
-    ): array {
-        $qb = $this->getFilterQuery($user, $from, $to, $type, $categoryId);
-
-        $qb
-            ->select('transactions.type, SUM(transactions.amount) as total')
-            ->groupBy('transactions.type')
-        ;
-
-        $rows = $qb->getQuery()->getResult();
-
-        $totals = [
-            'totalIncome' => '0.00',
-            'totalExpense' => '0.00'
-        ];
-
-        foreach ($rows as $row) {
-            if ($row['type'] === TransactionType::INCOME) {
-                $totals['totalIncome'] = number_format($row['total'], 2);
-            } else {
-                $totals['totalExpense'] = number_format($row['total'], 2);
-            }
-        }
-
-        return $totals;
+        return $summary;
     }
 }
