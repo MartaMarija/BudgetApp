@@ -2,12 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Post;
-use App\DTO\Output\RegisterUserOutput;
-use App\DTO\Input\RegisterUserInput;
 use App\Repository\UserRepository;
-use App\State\Processor\RegisterUserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +12,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`users`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ApiResource(
-    operations: [
-        new Post(
-            uriTemplate: '/register',
-            input: RegisterUserInput::class,
-            output: RegisterUserOutput::class,
-            processor: RegisterUserProcessor::class
-        )
-    ]
-)]
 class User extends TemporalEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Column(length: 180)]
