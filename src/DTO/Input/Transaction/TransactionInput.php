@@ -8,7 +8,7 @@ use App\Enum\TransactionType;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[OA\Schema(required: ['amount', 'date', 'type'])]
+#[OA\Schema(required: ['amount', 'date', 'type', 'categoryId'])]
 class TransactionInput
 {
     private const array TRANSACTION_TYPES = [
@@ -35,6 +35,6 @@ class TransactionInput
     public string $type;
 
     #[Assert\NotBlank]
-    #[OA\Property(example: 3, nullable: true)]
+    #[OA\Property(example: 3)]
     public int $categoryId;
 }

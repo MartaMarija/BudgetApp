@@ -25,5 +25,9 @@ migrate-all:
 fixtures:
 	docker compose exec web bin/console doctrine:fixtures:load
 
-tests:
+run-tests:
 	docker compose exec web bin/phpunit
+
+set-up-test-db:
+	docker compose exec web bin/console --env=test doctrine:database:create
+	docker compose exec web bin/console --env=test doctrine:schema:create

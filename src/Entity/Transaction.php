@@ -24,6 +24,7 @@ class Transaction extends TemporalEntity
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
     #[ORM\Column(enumType: TransactionType::class)]
