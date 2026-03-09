@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/user', 'user_')]
+#[Route('/users', 'users_')]
 class UserController extends AbstractApiController
 {
     public function __construct(
@@ -31,7 +31,17 @@ class UserController extends AbstractApiController
         description: 'User registered successfully',
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: 'data', ref: new Model(type: RegisterUserOutput::class)),
+                new OA\Property(
+                    property: 'data',
+                    properties: [
+                        new OA\Property(
+                            property: 'userId',
+                            type: 'int',
+                            example: 1
+                        ),
+                    ],
+                    type: 'object',
+                ),
                 new OA\Property(property: 'message', type: 'string', example: 'User registered successfully'),
             ]
         )
@@ -50,7 +60,7 @@ class UserController extends AbstractApiController
         description: 'User registration failed',
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: 'data', type: 'null'),
+                new OA\Property(property: 'data'),
                 new OA\Property(property: 'message', type: 'string', example: 'Email already in use'),
             ]
         )
@@ -64,6 +74,6 @@ class UserController extends AbstractApiController
             return $this->respondWithError($exception->getMessage(), $exception->getStatusCode());
         }
 
-        return $this->respondWithSuccess(new RegisterUserOutput($user->getId()), 'User registered successfully', 201);
+        return $this->respondWithSuccess(['userId' => $user->getId()], 'User registered successfully', 201);
     }
 }

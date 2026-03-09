@@ -1,17 +1,12 @@
 {
-    "api-platform/symfony": {
-        "version": "4.2",
+    "dama/doctrine-test-bundle": {
+        "version": "8.6",
         "recipe": {
-            "repo": "github.com/symfony/recipes",
+            "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
-            "version": "4.0",
-            "ref": "e9952e9f393c2d048f10a78f272cd35e807d972b"
-        },
-        "files": [
-            "config/packages/api_platform.yaml",
-            "config/routes/api_platform.yaml",
-            "src/ApiResource/.gitignore"
-        ]
+            "version": "8.3",
+            "ref": "dfc51177476fb39d014ed89944cde53dc3326d23"
+        }
     },
     "doctrine/deprecations": {
         "version": "1.1",
@@ -83,6 +78,21 @@
         },
         "files": [
             "config/packages/nelmio_cors.yaml"
+        ]
+    },
+    "phpunit/phpunit": {
+        "version": "13.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "11.1",
+            "ref": "1117deb12541f35793eec9fff7494d7aa12283fc"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.dist.xml",
+            "tests/bootstrap.php",
+            "bin/phpunit"
         ]
     },
     "symfony/console": {
@@ -213,15 +223,6 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/uid": {
-        "version": "8.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "7.0",
-            "ref": "0df5844274d871b37fc3816c57a768ffc60a43a5"
-        }
     },
     "symfony/validator": {
         "version": "8.0",
