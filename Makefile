@@ -13,7 +13,7 @@ db:
 xdebug:
 	docker compose -f docker-compose.yml -f docker-compose.xdebug.yml up -d --build
 
-recreat:
+recreate:
 	docker compose up -d --build --force-recreate
 
 composer-install:
@@ -21,3 +21,9 @@ composer-install:
 
 migrate-all:
 	docker compose exec web bin/console doctrine:migrations:migrate
+
+fixtures:
+	docker compose exec web bin/console doctrine:fixtures:load
+
+tests:
+	docker compose exec web bin/phpunit

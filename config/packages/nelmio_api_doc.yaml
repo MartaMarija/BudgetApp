@@ -3,6 +3,39 @@ nelmio_api_doc:
         info:
             title: BudgetApp API
             version: 1.0.0
+        paths:
+            /api/login_check:
+                post:
+                    tags:
+                        - Auth
+                    summary: Get a JWT token
+                    security: []
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    required: [email, password]
+                                    properties:
+                                        email:
+                                            type: string
+                                            example: john@example.com
+                                        password:
+                                            type: string
+                                            example: password123
+                    responses:
+                        '200':
+                            description: JWT token
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token:
+                                                type: string
+                        '401':
+                            description: Invalid credentials
         components:
             securitySchemes:
                 BearerAuth:
