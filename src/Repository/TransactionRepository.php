@@ -45,7 +45,8 @@ class TransactionRepository extends ServiceEntityRepository
     ): QueryBuilder {
         $qb = $this
             ->createQueryBuilder('transactions')
-            ->select('transactions')
+            ->select('transactions', 'categories')
+            ->join('transactions.category', 'categories')
             ->where('transactions.createdBy = :userId')
             ->setParameter('userId', $user->getId())
         ;
@@ -66,7 +67,6 @@ class TransactionRepository extends ServiceEntityRepository
 
         if ($categoryId !== null) {
             $qb
-                ->leftJoin('transactions.category', 'categories')
                 ->andWhere('categories.id = :categoryId')
                 ->setParameter('categoryId', $categoryId);
         }
